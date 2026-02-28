@@ -1,0 +1,135 @@
+import { NextResponse } from "next/server";
+import { connectDB } from "@/src/lib/mongodb";
+import Asset from "@/src/models/Asset";
+import cloudinary from "@/src/lib/cloudinary";
+import mongoose from "mongoose";
+import { UploadApiResponse } from "cloudinary";
+
+interface Params {
+  params: {
+    id: string;
+  };
+}
+
+// DELETE /api/assets/:id
+export async function DELETE(req: Request, { params }: Params) {
+  try {
+    await connectDB();
+
+    const asset = await Asset.findById(params.id);
+
+    if (!asset) {
+      return NextResponse.json({ error: "Asset not found" }, { status: 404 });
+    }
+
+    // 1. Xoá Cloudinary
+    const cloudResult = await cloudinary.uploader.destroy(asset.publicId, {
+      resource_type: "auto",
+    });
+
+    if (cloudResult.result !== "ok") {
+      return NextResponse.json(
+        { error: "Cloudinary delete failed" },
+        { status: 400 },
+      );
+    }
+
+    // 2. Xoá MongoDB
+    await Asset.findByIdAndDelete(params.id);
+
+    return NextResponse.json({
+      message: "Deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
+  }
+}
+
+// PUT /api/assets/:id
+export async function PUT(req: Request, { params }: Params) {
+  try {
+    await connectDB();
+
+    const { id } = params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+    }
+
+    const asset = await Asset.findById(id);
+
+    if (!asset) {
+      return NextResponse.json({ error: "Asset not found" }, { status: 404 });
+    }
+
+    // Nếu gửi JSON thường
+    const contentType = req.headers.get("content-type");
+
+    // ===============================
+    // CASE 1: Update text only (JSON)
+    // ===============================
+    if (contentType?.includes("application/json")) {
+      const body = await req.json();
+
+      asset.title = body.title ?? asset.title;
+      asset.description = body.description ?? asset.description;
+
+      await asset.save();
+
+      return NextResponse.json(asset);
+    }
+
+    // ===============================
+    // CASE 2: Update có file (FormData)
+    // ===============================
+    if (contentType?.includes("multipart/form-data")) {
+      const formData = await req.formData();
+
+      const title = formData.get("title") as string | null;
+      const description = formData.get("description") as string | null;
+      const file = formData.get("file") as File | null;
+
+      if (title) asset.title = title;
+      if (description) asset.description = description;
+
+      // Nếu có upload file zip mới
+      if (file) {
+        // 1️⃣ Xoá file cũ trên Cloudinary
+        await cloudinary.uploader.destroy(asset.publicId, {
+          resource_type: "auto",
+        });
+
+        // 2️⃣ Upload file mới
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        const uploadResult: UploadApiResponse = await new Promise(
+          (resolve, reject) => {
+            cloudinary.uploader
+              .upload_stream({ resource_type: "auto" }, (err, result) => {
+                if (err) reject(err);
+                else resolve(result as UploadApiResponse);
+              })
+              .end(buffer);
+          },
+        );
+
+        asset.fileUrl = uploadResult.secure_url;
+        asset.publicId = uploadResult.public_id;
+      }
+
+      await asset.save();
+
+      return NextResponse.json(asset);
+    }
+
+    return NextResponse.json(
+      { error: "Unsupported content type" },
+      { status: 400 },
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Update failed" }, { status: 500 });
+  }
+}
