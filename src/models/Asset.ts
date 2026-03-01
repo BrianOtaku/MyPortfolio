@@ -9,9 +9,10 @@ export interface IShowcase {
 export interface IAsset extends Document {
   title: string;
   description: string;
-  zipUrl: string;
-  zipPublicId: string;
+  fileUrl: string;
+  publicId: string;
   showcase: IShowcase[];
+  downloads: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,8 +22,8 @@ const AssetSchema = new mongoose.Schema<IAsset>(
     title: { type: String, required: true },
     description: { type: String, required: true },
 
-    zipUrl: { type: String, required: true },
-    zipPublicId: { type: String, required: true },
+    fileUrl: { type: String, required: true },
+    publicId: { type: String, required: true },
 
     showcase: [
       {
@@ -35,6 +36,8 @@ const AssetSchema = new mongoose.Schema<IAsset>(
         publicId: { type: String, required: true },
       },
     ],
+
+    downloads: { type: Number, default: 0 },
   },
   { timestamps: true },
 );

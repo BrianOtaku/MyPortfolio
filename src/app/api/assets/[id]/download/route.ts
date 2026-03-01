@@ -2,12 +2,18 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB } from "@/src/lib/mongodb";
 import Asset from "@/src/models/Asset";
+import { requireAuth } from "@/src/utils/auth";
+import type { NextRequest } from "next/server";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
+    // require login
+    const { isAuthorized, response } = await requireAuth(req);
+    if (!isAuthorized) return response;
+
     await connectDB();
 
     const { id } = params;
@@ -26,20 +32,22 @@ export async function GET(
       return NextResponse.json({ message: "Asset not found" }, { status: 404 });
     }
 
-    // Kiểm tra có zipUrl không
-    if (!asset.zipUrl) {
+    // Kiểm tra có fileUrl không
+    if (!asset.fileUrl) {
       return NextResponse.json(
         { message: "File not available" },
         { status: 400 },
       );
     }
 
-    // Tăng lượt tải
+    // Tăng lượt tải async (không chặn response)
     asset.downloads = (asset.downloads || 0) + 1;
-    await asset.save();
+    asset
+      .save()
+      .catch((err: Error) => console.error("Failed to update downloads:", err));
 
     // Redirect sang Cloudinary
-    return NextResponse.redirect(asset.zipUrl);
+    return NextResponse.redirect(asset.fileUrl);
   } catch (error) {
     console.error("Download error:", error);
 

@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/src/lib/mongodb";
-import Asset from "@/src/models/Asset";
+import Asset, { IShowcase } from "@/src/models/Asset";
 import cloudinary from "@/src/lib/cloudinary";
 import mongoose from "mongoose";
 import { UploadApiResponse } from "cloudinary";
+import { getToken } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
 
 interface Params {
   params: {
@@ -12,8 +14,17 @@ interface Params {
 }
 
 // DELETE /api/assets/:id
-export async function DELETE(req: Request, { params }: Params) {
+export async function DELETE(req: NextRequest, { params }: Params) {
   try {
+    // Check authorization
+    const token = await getToken({ req });
+    if (!token || token.role !== "admin") {
+      return NextResponse.json(
+        { error: "Unauthorized - admin access required" },
+        { status: 401 },
+      );
+    }
+
     await connectDB();
 
     const asset = await Asset.findById(params.id);
@@ -22,19 +33,30 @@ export async function DELETE(req: Request, { params }: Params) {
       return NextResponse.json({ error: "Asset not found" }, { status: 404 });
     }
 
-    // 1. Xoá Cloudinary
-    const cloudResult = await cloudinary.uploader.destroy(asset.publicId, {
-      resource_type: "auto",
-    });
+    // 1. Xoá file chính trên Cloudinary
+    try {
+      await cloudinary.uploader.destroy(asset.publicId, {
+        resource_type: "auto",
+      });
+    } catch (cloudErr) {
+      console.warn("Cloudinary delete warning:", cloudErr);
+      // Tiếp tục xoá từ MongoDB dù Cloudinary thất bại
+    }
 
-    if (cloudResult.result !== "ok") {
-      return NextResponse.json(
-        { error: "Cloudinary delete failed" },
-        { status: 400 },
+    // 2. Xoá showcase files
+    if (asset.showcase && asset.showcase.length > 0) {
+      await Promise.all(
+        asset.showcase.map((s: IShowcase) =>
+          cloudinary.uploader
+            .destroy(s.publicId, { resource_type: "auto" })
+            .catch((e: Error) => {
+              console.warn("Failed to delete showcase:", e);
+            }),
+        ),
       );
     }
 
-    // 2. Xoá MongoDB
+    // 3. Xoá từ MongoDB
     await Asset.findByIdAndDelete(params.id);
 
     return NextResponse.json({
@@ -47,8 +69,17 @@ export async function DELETE(req: Request, { params }: Params) {
 }
 
 // PUT /api/assets/:id
-export async function PUT(req: Request, { params }: Params) {
+export async function PUT(req: NextRequest, { params }: Params) {
   try {
+    // Check authorization
+    const token = await getToken({ req });
+    if (!token || token.role !== "admin") {
+      return NextResponse.json(
+        { error: "Unauthorized - admin access required" },
+        { status: 401 },
+      );
+    }
+
     await connectDB();
 
     const { id } = params;
@@ -107,7 +138,7 @@ export async function PUT(req: Request, { params }: Params) {
         const uploadResult: UploadApiResponse = await new Promise(
           (resolve, reject) => {
             cloudinary.uploader
-              .upload_stream({ resource_type: "auto" }, (err, result) => {
+              .upload_stream({ resource_type: "raw" }, (err, result) => {
                 if (err) reject(err);
                 else resolve(result as UploadApiResponse);
               })
