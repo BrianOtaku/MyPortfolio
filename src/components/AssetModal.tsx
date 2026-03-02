@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import CommentSection from "./CommentSection";
 
 interface Showcase {
   type: "image" | "video";
@@ -80,6 +81,9 @@ export default function AssetModal({ asset, onClose }: Props) {
             </a>
           </div>
         </div>
+
+        {/* now show comments underneath */}
+        <CommentSection assetId={asset._id} />
       </div>
     </div>
   );
