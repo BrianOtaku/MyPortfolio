@@ -1,6 +1,8 @@
 "use client";
 
 import AssetList from "@/src/components/AssetList";
+import { Contact } from "@/src/components/Contact";
+import { Hero } from "@/src/components/Hero";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -17,29 +19,7 @@ export default function Home() {
     <main
       className={`space-y-32 ${isVisible ? "opacity-100" : "opacity-0"} transition-opacity duration-500`}
     >
-      {/* HERO */}
-      <section className="h-screen flex flex-col justify-center items-center text-center px-6">
-        <h1 className="text-5xl md:text-6xl font-bold">Nguyễn Tâm Bảo</h1>
-        <p className="text-gray-500 mt-6 text-lg">
-          Pixel Artist & Frontend Developer
-        </p>
-
-        <div className="mt-10 flex gap-4">
-          <a
-            href="#assets"
-            className="px-6 py-3 bg-black text-white rounded hover:opacity-80 transition"
-          >
-            View Free Assets
-          </a>
-          <a
-            href="#contact"
-            className="px-6 py-3 border border-black rounded hover:bg-black hover:text-white transition"
-          >
-            Contact Me
-          </a>
-        </div>
-      </section>
-
+      <Hero />
       {/* ABOUT */}
       <section className="max-w-4xl mx-auto text-center px-6">
         <h2 className="text-3xl font-bold mb-6">About Me</h2>
@@ -105,21 +85,7 @@ export default function Home() {
           <AssetList />
         </div>
       </section>
-
-      {/* CONTACT */}
-      <section id="contact" className="bg-black text-white py-20 text-center">
-        <h2 className="text-3xl font-bold mb-6">Let&apos;s Work Together</h2>
-        <p className="mb-6 text-gray-300">
-          Available for freelance pixel art and web development projects.
-        </p>
-
-        <a
-          href="mailto:your@email.com"
-          className="px-6 py-3 bg-white text-black rounded hover:opacity-80 transition"
-        >
-          Send Email
-        </a>
-      </section>
+      <Contact />
     </main>
   );
 }
