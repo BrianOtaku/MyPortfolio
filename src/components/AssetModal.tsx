@@ -1,8 +1,7 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import CommentSection from "./CommentSection";
+import { X } from "lucide-react";
 
 interface Showcase {
   type: "image" | "video";
@@ -23,37 +22,64 @@ interface Props {
 
 export default function AssetModal({ asset, onClose }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
-
   const activeItem = asset.showcase[activeIndex];
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-4xl rounded-lg p-6 relative">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-black border-4 border-cyan-400"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500"
+          className="absolute top-4 right-4 z-20 border-2 border-white bg-black p-2 hover:bg-cyan-400 hover:border-cyan-400 transition-all group"
         >
-          ✕
+          <X className="w-6 h-6 text-white group-hover:text-black transition-colors" />
         </button>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* Asset Info */}
+        <div className="border-b-4 border-cyan-400 p-6 bg-zinc-900">
+          <h2 className="text-xl md:text-2xl text-white mb-4">{asset.title}</h2>
+          <p className="text-[10px] text-white/60 leading-loose">
+            {asset.description}
+          </p>
+        </div>
+
+        <div className="p-6">
           {/* Showcase */}
-          <div>
-            {activeItem.type === "image" ? (
-              <Image
-                src={activeItem.url}
-                alt={asset.title}
-                width={800}
-                height={600}
-                className="w-full rounded"
-              />
-            ) : (
-              <video src={activeItem.url} controls className="w-full rounded" />
-            )}
+          <div className="space-y-8">
+            <div className="relative border-4 border-white">
+              <div className="absolute top-0 left-0 w-3 h-3 bg-white z-10"></div>
+              <div className="absolute top-0 right-0 w-3 h-3 bg-white z-10"></div>
+              <div className="absolute bottom-0 left-0 w-3 h-3 bg-white z-10"></div>
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-white z-10"></div>
+              {activeItem.type === "image" ? (
+                <Image
+                  src={activeItem.url}
+                  alt={asset.title}
+                  width={800}
+                  height={600}
+                  className="w-full"
+                />
+              ) : (
+                <video src={activeItem.url} controls className="w-full" />
+              )}
+            </div>
 
             {/* Thumbnails */}
-            <div className="flex gap-2 mt-4 overflow-x-auto">
+            <div className="flex gap-2 overflow-x-auto">
               {asset.showcase.map((item, index) => (
                 <Image
                   key={item.url}
@@ -61,25 +87,22 @@ export default function AssetModal({ asset, onClose }: Props) {
                   alt={`Preview ${index}`}
                   width={100}
                   height={100}
-                  className="h-16 w-auto rounded cursor-pointer"
+                  className="h-16 w-auto cursor-pointer border-2 border-white p-6 bg-zinc-900"
                   onClick={() => setActiveIndex(index)}
                 />
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Info */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">{asset.title}</h2>
-            <p className="text-gray-600 mb-6">{asset.description}</p>
-
-            <a
-              href={`/api/assets/${asset._id}/download`}
-              className="px-6 py-3 bg-black text-white rounded inline-block"
-            >
-              Download
-            </a>
-          </div>
+        {/* Download Button */}
+        <div className="border-t-4 border-cyan-400 bg-black p-6">
+          <a
+            href={`/api/assets/${asset._id}/download`}
+            className="inline-block px-6 py-3 border-2 transition-all bg-black text-white border-white hover:border-cyan-400 hover:text-cyan-400"
+          >
+            Download
+          </a>
         </div>
 
         {/* now show comments underneath */}

@@ -10,10 +10,10 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="font-['Press_Start_2P'] text-[8px] text-white/60 flex items-center gap-2">
+        <p className="text-[8px] text-white/60 flex items-center gap-2">
           <span>© {currentYear} ALL RIGHTS RESERVED</span>
         </p>
-        <p className="font-['Press_Start_2P'] text-[8px] text-white/60 flex items-center gap-2">
+        <p className="text-[8px] text-white/60 flex items-center gap-2">
           MADE WITH{" "}
           <Heart className="w-3 h-3 text-red-500 fill-red-500 animate-pulse" />{" "}
           BY BRIAN OTAKU

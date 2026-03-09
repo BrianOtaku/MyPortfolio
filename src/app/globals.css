@@ -25,6 +25,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    white 2px,
+    white 4px
+  );
+}
+
 /* Floating animation */
 @keyframes float {
   0%,

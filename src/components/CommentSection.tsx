@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
@@ -64,51 +62,63 @@ export default function CommentSection({ assetId }: Props) {
   };
 
   return (
-    <div className="mt-6">
-      <h3 className="text-xl font-semibold mb-2">Comments</h3>
-      {comments.length === 0 ? (
-        <p className="text-gray-500">No comments yet.</p>
-      ) : (
-        <ul className="space-y-4 max-h-64 overflow-y-auto">
-          {comments.map((c) => (
-            <li key={c._id} className="border p-3 rounded">
-              <div className="text-sm text-gray-600 mb-1">
-                <strong>{c.user?.name || "Anonymous"}</strong> •{" "}
-                {new Date(c.createdAt).toLocaleString()}
-              </div>
-              <div>{c.content}</div>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="border-t-4 border-cyan-400 p-6 bg-zinc-900">
+      <h3 className="text-sm text-cyan-400 mb-6">&gt; COMMENTS</h3>
 
+      {/* Comment Form */}
       {isLoggedIn ? (
-        <form onSubmit={handleSubmit} className="mt-4">
-          <textarea
-            className="w-full border rounded p-2"
-            rows={3}
-            placeholder="Write a comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            required
-          />
+        <form onSubmit={handleSubmit} className="mb-8">
+          <div className="border-4 border-white p-4 bg-black mb-4">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="LEAVE YOUR COMMENT..."
+              className="w-full bg-transparent text-[10px] text-white outline-none resize-none"
+              rows={4}
+              style={{ textTransform: "uppercase" }}
+            />
+          </div>
           <button
             type="submit"
-            className="mt-2 px-4 py-2 bg-blue-600 text-white rounded"
-            disabled={submitting}
+            className="border-4 border-white bg-black px-6 py-3 text-xs text-white hover:bg-cyan-400 hover:border-cyan-400 hover:text-black transition-all"
           >
-            {submitting ? "Posting..." : "Post Comment"}
+            POST COMMENT
           </button>
-          {error && <p className="text-red-500 mt-1">{error}</p>}
         </form>
       ) : (
-        <p className="text-gray-500 mt-2">
+        <p className="text-white/60 mb-6">
           Please&nbsp;
-          <a href="/login" className="text-blue-600 underline">
+          <a href="/login" className="text-cyan-400 underline">
             sign in
           </a>
           &nbsp;to post a comment.
         </p>
+      )}
+
+      {comments.length === 0 ? (
+        <p className="text-white/60">No comments yet.</p>
+      ) : (
+        <ul className="space-y-4 max-h-64 overflow-y-auto">
+          {comments.map((c) => (
+            <li key={c._id} className="border-4 border-white p-4 bg-black">
+              <div className="flex items-start gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[10px] text-cyan-400">
+                      {c.user?.name || c.user?.email || "Unknown User"}
+                    </span>
+                    <span className="text-[8px] text-white/40">
+                      {new Date(c.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-white/80 leading-loose">
+                    {c.content}
+                  </p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

@@ -1,5 +1,3 @@
-"use client";
-
 export function Hero() {
   return (
     <section className="min-h-screen bg-black border-b-4 border-cyan-400 relative overflow-hidden flex items-center justify-center">
@@ -17,7 +15,7 @@ export function Hero() {
               <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-white"></div>
               <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-white"></div>
 
-              <h1 className="font-['Press_Start_2P'] text-white space-y-4">
+              <h1 className="text-white space-y-4">
                 <div className="text-sm text-cyan-400 mb-6">
                   &gt; PORTFOLIO.EXE &lt;
                 </div>
@@ -28,16 +26,16 @@ export function Hero() {
             </div>
           </div>
 
-          <p className="font-['Press_Start_2P'] text-xs md:text-sm text-white/80 leading-loose max-w-2xl mx-auto px-4">
-            WEB DEVELOPER • PIXEL ARTIST
+          <p className="text-xs md:text-sm text-white/80 leading-loose max-w-2xl mx-auto px-4">
+            WEB DEVELOPER • WEB DESIGNER • PIXEL ARTIST
           </p>
 
           {/* Call to action */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
-            <button className="group border-4 border-cyan-400 bg-cyan-400 px-8 py-4 font-['Press_Start_2P'] text-xs text-black hover:bg-black hover:text-cyan-400 transition-all duration-200 relative overflow-hidden">
+            <button className="w-full sm:w-auto border-4 border-cyan-400 bg-cyan-400 px-8 py-4 text-xs text-black hover:bg-black hover:text-cyan-400 transition-all duration-200">
               VIEW WORK
             </button>
-            <button className="border-4 border-white bg-black px-8 py-4 font-['Press_Start_2P'] text-xs text-white hover:bg-white hover:text-black transition-all duration-200">
+            <button className="w-full sm:w-auto border-4 border-white bg-black px-8 py-4 text-xs text-white hover:bg-white hover:text-black transition-all duration-200">
               CONTACT ME
             </button>
           </div>
