@@ -88,7 +88,7 @@ export default function CommentSection({ assetId }: Props) {
       ) : (
         <p className="text-white/60 mb-6">
           Please&nbsp;
-          <a href="/login" className="text-cyan-400 underline">
+          <a href="/auth" className="text-cyan-400 underline">
             sign in
           </a>
           &nbsp;to post a comment.

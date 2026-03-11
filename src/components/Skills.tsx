@@ -57,7 +57,7 @@ export function Skills() {
   const [activeCategory, setActiveCategory] = useState(0);
 
   return (
-    <section className="bg-black py-24 relative overflow-hidden">
+    <section id="skills" className="bg-black py-24 relative overflow-hidden">
       {/* Animated background grid */}
       <div className="retro-grid pointer-events-none" />
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import CommentSection from "./CommentSection";
 import { X } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface Showcase {
   type: "image" | "video";
@@ -23,6 +24,7 @@ interface Props {
 export default function AssetModal({ asset, onClose }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeItem = asset.showcase[activeIndex];
+  const { data: session } = useSession();
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -98,10 +100,10 @@ export default function AssetModal({ asset, onClose }: Props) {
         {/* Download Button */}
         <div className="border-t-4 border-cyan-400 bg-black p-6">
           <a
-            href={`/api/assets/${asset._id}/download`}
+            href={session ? `/api/assets/${asset._id}/download` : `/auth`}
             className="inline-block px-6 py-3 border-2 transition-all bg-black text-white border-white hover:border-cyan-400 hover:text-cyan-400"
           >
-            Download
+            {session ? "> Download" : "> Sign in to Download"}
           </a>
         </div>
 

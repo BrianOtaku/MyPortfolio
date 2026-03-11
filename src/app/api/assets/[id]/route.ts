@@ -4,7 +4,7 @@ import Asset, { IShowcase } from "@/src/models/Asset";
 import cloudinary from "@/src/lib/cloudinary";
 import mongoose from "mongoose";
 import { UploadApiResponse } from "cloudinary";
-import { getToken } from "next-auth/jwt";
+import { requireAdminAuth } from "@/src/utils/auth";
 import type { NextRequest } from "next/server";
 
 interface Params {
@@ -17,13 +17,8 @@ interface Params {
 export async function DELETE(req: NextRequest, { params }: Params) {
   try {
     // Check authorization
-    const token = await getToken({ req });
-    if (!token || token.role !== "admin") {
-      return NextResponse.json(
-        { error: "Unauthorized - admin access required" },
-        { status: 401 },
-      );
-    }
+    const { isAuthorized, response } = await requireAdminAuth(req);
+    if (!isAuthorized) return response;
 
     await connectDB();
 
@@ -72,13 +67,8 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 export async function PUT(req: NextRequest, { params }: Params) {
   try {
     // Check authorization
-    const token = await getToken({ req });
-    if (!token || token.role !== "admin") {
-      return NextResponse.json(
-        { error: "Unauthorized - admin access required" },
-        { status: 401 },
-      );
-    }
+    const { isAuthorized, response } = await requireAdminAuth(req);
+    if (!isAuthorized) return response;
 
     await connectDB();
 

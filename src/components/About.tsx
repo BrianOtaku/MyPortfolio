@@ -1,6 +1,6 @@
 export function About() {
   return (
-    <section className="bg-zinc-900 py-24 relative overflow-hidden">
+    <section id="about" className="bg-zinc-900 py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">

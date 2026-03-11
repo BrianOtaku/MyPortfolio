@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Page() {
+export default function Loading() {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);

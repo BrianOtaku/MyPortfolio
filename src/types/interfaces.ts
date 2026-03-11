@@ -1,3 +1,15 @@
+// User Interfaces
+
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  role: "user" | "admin";
+  image?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // Asset Interfaces
 
 export interface Showcase {

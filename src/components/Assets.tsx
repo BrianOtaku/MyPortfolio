@@ -26,7 +26,7 @@ export function Assets() {
   }, []);
 
   return (
-    <section className="bg-zinc-900 py-20 relative">
+    <section id="assets" className="bg-zinc-900 py-20 relative">
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">

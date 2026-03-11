@@ -90,15 +90,10 @@ export const authOptions: NextAuthOptions = {
     },
 
     async jwt({ token, user }) {
+      // chỉ chạy khi login
       if (user) {
-        await connectDB();
-
-        const dbUser = await User.findOne({ email: user.email });
-
-        if (dbUser) {
-          token.id = dbUser._id.toString();
-          token.role = dbUser.role;
-        }
+        token.id = user.id;
+        token.role = user.role;
       }
 
       return token;

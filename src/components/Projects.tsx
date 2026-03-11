@@ -59,7 +59,7 @@ export function Projects() {
   const projects = webProjects;
 
   return (
-    <section className="bg-black py-20 relative">
+    <section id="projects" className="bg-black py-20 relative">
       {/* Animated grid background */}
       <div className="retro-grid pointer-events-none" />
 
@@ -76,7 +76,7 @@ export function Projects() {
             </h2>
           </div>
           <p className="text-xs text-white/60 max-w-2xl mx-auto leading-loose">
-            FULL-STACK • FRONTEND APPLICATIONS • PIXEL ARTWORKS
+            FULL-STACK • FRONTEND APPLICATIONS • 2D PIXEL GAMES
           </p>
         </div>
 

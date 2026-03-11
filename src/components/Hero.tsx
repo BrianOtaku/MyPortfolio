@@ -1,6 +1,9 @@
 export function Hero() {
   return (
-    <section className="min-h-screen bg-black border-b-4 border-cyan-400 relative overflow-hidden flex items-center justify-center">
+    <section
+      id="hero"
+      className="min-h-screen bg-black border-b-4 border-cyan-400 relative overflow-hidden flex items-center justify-center"
+    >
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Animated background grid */}
         <div className="retro-grid pointer-events-none" />
@@ -32,12 +35,18 @@ export function Hero() {
 
           {/* Call to action */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
-            <button className="w-full sm:w-auto border-4 border-cyan-400 bg-cyan-400 px-8 py-4 text-xs text-black hover:bg-black hover:text-cyan-400 transition-all duration-200">
+            <a
+              href="#assets"
+              className="w-full sm:w-auto border-4 border-cyan-400 bg-cyan-400 px-8 py-4 text-xs text-black hover:bg-black hover:text-cyan-400 transition-all duration-200"
+            >
               VIEW WORK
-            </button>
-            <button className="w-full sm:w-auto border-4 border-white bg-black px-8 py-4 text-xs text-white hover:bg-white hover:text-black transition-all duration-200">
+            </a>
+            <a
+              href="#contact"
+              className="w-full sm:w-auto border-4 border-white bg-black px-8 py-4 text-xs text-white hover:bg-white hover:text-black transition-all duration-200"
+            >
               CONTACT ME
-            </button>
+            </a>
           </div>
         </div>
       </div>

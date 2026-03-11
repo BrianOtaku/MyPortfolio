@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/src/lib/mongodb";
 import Asset from "@/src/models/Asset";
 import cloudinary from "@/src/lib/cloudinary";
-import { getToken } from "next-auth/jwt";
+import { requireAdminAuth } from "@/src/utils/auth";
 import type { NextRequest } from "next/server";
 
 interface CloudinaryUploadResult {
@@ -38,13 +38,8 @@ const ALLOWED_MEDIA_TYPES = [
 export async function POST(req: NextRequest) {
   try {
     // Check authorization
-    const token = await getToken({ req });
-    if (!token || token.role !== "admin") {
-      return NextResponse.json(
-        { error: "Unauthorized - admin access required" },
-        { status: 401 },
-      );
-    }
+    const { isAuthorized, response } = await requireAdminAuth(req);
+    if (!isAuthorized) return response;
 
     await connectDB();
 

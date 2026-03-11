@@ -3,7 +3,10 @@ import { Footer } from "./Footer";
 
 export function Contact() {
   return (
-    <section className="bg-black border-t-4 border-cyan-400 relative">
+    <section
+      id="contact"
+      className="bg-black border-t-4 border-cyan-400 relative"
+    >
       {/* Grid background */}
       <div className="pixel-grid pointer-events-none" />
 
@@ -30,20 +33,19 @@ export function Contact() {
             <h4 className="text-xs text-cyan-400 mb-6">&gt; QUICK LINKS</h4>
             <ul className="space-y-3">
               {[
-                "HOME",
-                "ABOUT",
-                "SKILLS",
-                "ASSET PACKS",
-                "PROJECTS",
-                "CONTACT",
+                { label: "HOME", href: "#" },
+                { label: "ABOUT", href: "#about" },
+                { label: "SKILLS", href: "#skills" },
+                { label: "ASSET PACKS", href: "#assets" },
+                { label: "PROJECTS", href: "#projects" },
               ].map((link) => (
-                <li key={link}>
+                <li key={link.label}>
                   <a
-                    href="#"
+                    href={link.href}
                     className="text-[10px] text-white hover:text-cyan-400 transition-colors inline-flex items-center group"
                   >
                     <span className="text-cyan-400 mr-2">&gt;</span>
-                    {link}
+                    {link.label}
                   </a>
                 </li>
               ))}
@@ -66,15 +68,32 @@ export function Contact() {
             {/* Social Links */}
             <div className="flex gap-3">
               {[
-                { icon: Github, label: "GitHub" },
-                { icon: Facebook, label: "Facebook" },
-                { icon: Mail, label: "Mail" },
+                {
+                  icon: Github,
+                  label: "GitHub",
+                  url: "https://github.com/BrianOtaku",
+                  external: true,
+                },
+                {
+                  icon: Facebook,
+                  label: "Facebook",
+                  url: "https://www.facebook.com/bao.nguyentam.585/",
+                  external: true,
+                },
+                {
+                  icon: Mail,
+                  label: "Mail",
+                  url: "mailto:tambao.pixel@gmail.com",
+                  external: false,
+                },
               ].map((social) => {
                 const Icon = social.icon;
                 return (
                   <a
                     key={social.label}
-                    href="#"
+                    href={social.url || "#"}
+                    target={social.external ? "_blank" : undefined}
+                    rel={social.external ? "noopener noreferrer" : undefined}
                     className="border-2 border-white p-2 hover:border-cyan-400 hover:bg-cyan-400 transition-all group"
                     aria-label={social.label}
                   >

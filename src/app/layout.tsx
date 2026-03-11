@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`bg-white text-black ${pixelFont.className}`}>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${pixelFont.className}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
