@@ -11,7 +11,7 @@ interface Params {
   };
 }
 
-// public: get all comments for given asset
+// public: get comments for given asset (supports simple pagination)
 export async function GET(req: NextRequest, { params }: Params) {
   try {
     await connectDB();
@@ -21,9 +21,20 @@ export async function GET(req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Invalid asset id" }, { status: 400 });
     }
 
-    const comments = await Comment.find({ asset: id })
+    // Read pagination params from query string
+    const url = new URL(req.url);
+    const limit = parseInt(url.searchParams.get("limit") || "0", 10);
+    const page = parseInt(url.searchParams.get("page") || "1", 10);
+
+    const query = Comment.find({ asset: id })
       .populate("user", "name email")
       .sort({ createdAt: 1 });
+
+    if (limit > 0) {
+      query.limit(limit).skip((page - 1) * limit);
+    }
+
+    const comments = await query;
 
     return NextResponse.json(comments);
   } catch (error) {
@@ -73,7 +84,9 @@ export async function POST(req: NextRequest, { params }: Params) {
       parentComment: parentComment || null,
     });
 
-    return NextResponse.json(comment, { status: 201 });
+    const populatedComment = await comment.populate("user", "name email");
+
+    return NextResponse.json(populatedComment, { status: 201 });
   } catch (error) {
     console.error("Comment POST error", error);
     return NextResponse.json(

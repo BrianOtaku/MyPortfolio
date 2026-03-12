@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import AssetModal from "./AssetModal";
+import { getAssets } from "../lib/assetApi";
 
 interface Showcase {
   type: "image" | "video";
@@ -20,9 +21,15 @@ export function Assets() {
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
 
   useEffect(() => {
-    fetch("/api/assets")
-      .then((res) => res.json())
-      .then(setAssets);
+    async function loadAssets() {
+      const res = await getAssets();
+
+      if (res.success && res.data) {
+        setAssets(res.data);
+      }
+    }
+
+    loadAssets();
   }, []);
 
   return (

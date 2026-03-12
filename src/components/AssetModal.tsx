@@ -101,7 +101,7 @@ export default function AssetModal({ asset, onClose }: Props) {
         <div className="border-t-4 border-cyan-400 bg-black p-6">
           <a
             href={session ? `/api/assets/${asset._id}/download` : `/auth`}
-            className="inline-block px-6 py-3 border-2 transition-all bg-black text-white border-white hover:border-cyan-400 hover:text-cyan-400"
+            className="inline-block px-6 py-3 border-4 border-white bg-black text-white hover:bg-cyan-400 hover:border-cyan-400 hover:text-black transition-all"
           >
             {session ? "> Download" : "> Sign in to Download"}
           </a>

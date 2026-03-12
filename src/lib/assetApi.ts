@@ -42,11 +42,11 @@ export async function getAssets(): Promise<ApiResponse<Asset[]>> {
 /**
  * Lấy thông tin chi tiết của một asset
  */
-export async function getAssetById(id: string): Promise<ApiResponse<Asset>> {
-  return httpClient<Asset>(`/api/assets/${id}`, {
-    method: "GET",
-  });
-}
+// export async function getAssetById(id: string): Promise<ApiResponse<Asset>> {
+//   return httpClient<Asset>(`/api/assets/${id}`, {
+//     method: "GET",
+//   });
+// }
 
 /**
  * Tạo asset mới

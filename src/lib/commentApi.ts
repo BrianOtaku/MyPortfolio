@@ -20,8 +20,17 @@ export interface UpdateCommentPayload {
  */
 export async function getAssetComments(
   assetId: string,
+  page?: number,
+  limit?: number,
 ): Promise<ApiResponse<Comment[]>> {
-  return httpClient<Comment[]>(`/api/assets/${assetId}/comment`, {
+  let endpoint = `/api/assets/${assetId}/comment`;
+  const params = new URLSearchParams();
+  if (page && page > 0) params.append("page", page.toString());
+  if (limit && limit > 0) params.append("limit", limit.toString());
+  if ([...params].length) {
+    endpoint += `?${params.toString()}`;
+  }
+  return httpClient<Comment[]>(endpoint, {
     method: "GET",
   });
 }

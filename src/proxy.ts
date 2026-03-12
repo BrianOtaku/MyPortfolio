@@ -15,7 +15,7 @@ export async function proxy(req: NextRequest) {
   }
 
   // Protect API write operations (POST, PUT, DELETE on assets)
-  if (pathname.startsWith("/api/assets")) {
+  if (pathname.startsWith("/api/assets") && !pathname.includes("/comment")) {
     if (method !== "GET") {
       if (!token || token.role !== "admin") {
         return NextResponse.json(
@@ -26,7 +26,7 @@ export async function proxy(req: NextRequest) {
     }
   }
 
-  // Protect download route
+  // Protect download route (only authenticated users can download)
   if (pathname.startsWith("/api/assets") && pathname.includes("/download")) {
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
