@@ -7,7 +7,7 @@ import type { NextRequest } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // require login
@@ -16,7 +16,7 @@ export async function GET(
 
     await connectDB();
 
-    const { id } = params;
+    const { id } = await params;
 
     // Check ObjectId hợp lệ
     if (!mongoose.Types.ObjectId.isValid(id)) {

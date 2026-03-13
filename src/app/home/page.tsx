@@ -7,7 +7,7 @@ import { Hero } from "@/src/components/Hero";
 import { Skills } from "@/src/components/Skills";
 import { Projects } from "@/src/components/Projects";
 import { useState, useEffect } from "react";
-import UserMenu from "@/src/components/UserMenu";
+import { UserMenu } from "@/src/components/UserMenu";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);

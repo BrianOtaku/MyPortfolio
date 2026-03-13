@@ -5,7 +5,7 @@ import { signOutUser } from "../lib/authApi";
 import { User } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-export default function UserMenu() {
+export function UserMenu() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -49,7 +49,7 @@ export default function UserMenu() {
 
         {session?.user.role === "admin" && (
           <button
-            onClick={() => signOutUser()}
+            onClick={() => (window.location.href = "/asset")}
             className="whitespace-nowrap sm:w-auto border-3 p-2 border-cyan-400 text-xs text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200"
           >
             UPLOAD ASSET

@@ -12,6 +12,27 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* track */
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+/* handle */
+::-webkit-scrollbar-thumb {
+  background: darkgray;
+  border-radius: 10px;
+}
+
+/* hover */
+::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

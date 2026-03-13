@@ -6,16 +6,16 @@
 import { httpClient, ApiResponse } from "./httpClient";
 import { Asset } from "../types/interfaces";
 
+export interface CreateShowcaseItem {
+  type: "image" | "video";
+  file: File | null;
+}
+
 export interface CreateAssetPayload {
   title: string;
   description: string;
-  fileUrl: string;
-  publicId: string;
-  showcase: Array<{
-    type: "image" | "video";
-    url: string;
-    publicId: string;
-  }>;
+  assetFile: File | null;
+  showcase: CreateShowcaseItem[];
 }
 
 export interface UpdateAssetPayload {
@@ -51,14 +51,14 @@ export async function getAssets(): Promise<ApiResponse<Asset[]>> {
 /**
  * Tạo asset mới
  */
-export async function createAsset(
-  assetData: CreateAssetPayload,
-): Promise<ApiResponse<Asset>> {
-  return httpClient<Asset>("/api/assets", {
-    method: "POST",
-    body: JSON.stringify(assetData),
-  });
-}
+// export async function createAsset(
+//   assetData: CreateAssetPayload,
+// ): Promise<ApiResponse<Asset>> {
+//   return httpClient<Asset>("/api/assets", {
+//     method: "POST",
+//     body: JSON.stringify(assetData),
+//   });
+// }
 
 /**
  * Cập nhật asset

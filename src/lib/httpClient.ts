@@ -21,16 +21,22 @@ export async function httpClient<T>(
   endpoint: string,
   options: FetchOptions = {},
 ): Promise<ApiResponse<T>> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || ""; // có thể cấu hình base URL nếu cần
   const url = `${baseUrl}${endpoint}`;
 
   try {
+    const headers: HeadersInit = {
+      ...options.headers,
+    };
+
+    // chỉ set JSON nếu body là object
+    if (options.body && !(options.body instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
+
     const response = await fetch(url, {
       ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
+      headers,
     });
 
     const data = await response.json();

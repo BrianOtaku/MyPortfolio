@@ -6,9 +6,7 @@ import { requireAuth } from "@/src/utils/auth";
 import type { NextRequest } from "next/server";
 
 interface Params {
-  params: {
-    id: string; // asset id
-  };
+  params: Promise<{ id: string }>;
 }
 
 // public: get comments for given asset (supports simple pagination)

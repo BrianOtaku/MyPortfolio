@@ -8,9 +8,7 @@ import { requireAdminAuth } from "@/src/utils/auth";
 import type { NextRequest } from "next/server";
 
 interface Params {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 // DELETE /api/assets/:id
@@ -22,7 +20,8 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
     await connectDB();
 
-    const asset = await Asset.findById(params.id);
+    const { id } = await params;
+    const asset = await Asset.findById(id);
 
     if (!asset) {
       return NextResponse.json({ error: "Asset not found" }, { status: 404 });
@@ -52,7 +51,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
     }
 
     // 3. Xoá từ MongoDB
-    await Asset.findByIdAndDelete(params.id);
+    await Asset.findByIdAndDelete(id);
 
     return NextResponse.json({
       message: "Deleted successfully",
@@ -72,7 +71,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
     await connectDB();
 
-    const { id } = params;
+    const { id } = await params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid id" }, { status: 400 });
