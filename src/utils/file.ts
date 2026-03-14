@@ -43,6 +43,8 @@ export function validateShowcase(file: File) {
     validateFile(file, MAX_IMAGE_SIZE, ALLOWED_MEDIA_TYPES, "Showcase Image");
   } else if (file.type.startsWith("video/")) {
     validateFile(file, MAX_VIDEO_SIZE, ALLOWED_MEDIA_TYPES, "Showcase Video");
+  } else {
+    throw new Error(`Showcase file "${file.name}" must be an image or video`);
   }
 }
 

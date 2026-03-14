@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SignIn } from "./SignIn";
 import { SignUp } from "./SignUp";
+import { AuthProviders } from "./AuthProviders";
 
 export function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -64,6 +65,9 @@ export function Auth() {
 
           {/* Form */}
           {isSignUp ? <SignUp /> : <SignIn />}
+
+          {/* Providers */}
+          <AuthProviders />
 
           {/* Decorative elements */}
           <div className="absolute top-0 left-0 w-2 h-2 bg-cyan-400"></div>

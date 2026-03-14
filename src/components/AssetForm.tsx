@@ -30,11 +30,6 @@ export function AssetForm() {
     showcase: [],
   });
 
-  const [currentShowcase, setCurrentShowcase] = useState<Showcase>({
-    type: "image",
-    file: null,
-  });
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -43,23 +38,6 @@ export function AssetForm() {
       ...prev,
       [name]: value,
     }));
-  };
-
-  const addShowcaseItem = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-
-    if (currentShowcase.file) {
-      setFormData((prev) => ({
-        ...prev,
-        showcase: [...prev.showcase, currentShowcase],
-      }));
-      setCurrentShowcase({
-        type: "image",
-        file: null,
-      });
-    }
   };
 
   const removeShowcaseItem = (index: number) => {
@@ -221,6 +199,7 @@ export function AssetForm() {
                     <input
                       type="file"
                       className="hidden"
+                      accept=".zip, .rar"
                       onChange={(e) =>
                         setFormData((prev) => ({
                           ...prev,
@@ -259,29 +238,38 @@ export function AssetForm() {
                     <input
                       ref={fileInputRef}
                       type="file"
-                      multiple={true}
+                      multiple
                       className="hidden"
-                      onChange={(e) =>
-                        setCurrentShowcase((prev) => ({
+                      accept="image/*,video/mp4,video/webm"
+                      onChange={(e) => {
+                        const files = e.target.files;
+                        if (!files) return;
+
+                        const newItems: Showcase[] = Array.from(files).map(
+                          (file) => ({
+                            type: file.type.startsWith("video")
+                              ? "video"
+                              : "image",
+                            file,
+                          }),
+                        );
+
+                        setFormData((prev) => ({
                           ...prev,
-                          file: e.target.files ? e.target.files[0] : null,
-                        }))
-                      }
+                          showcase: [...prev.showcase, ...newItems],
+                        }));
+
+                        e.target.value = "";
+                      }}
                     />
                   </label>
 
                   <span className="text-[10px] text-white/80 truncate">
-                    {currentShowcase.file?.name || "NO FILE CHOSEN"}
+                    {formData.showcase.length > 0
+                      ? `${formData.showcase.length} FILE(S) SELECTED`
+                      : "NO FILE CHOSEN"}
                   </span>
                 </div>
-                {/* Add Button */}
-                <button
-                  type="button"
-                  onClick={addShowcaseItem}
-                  className="whitespace-nowrap flex items-center gap-2 border-4 border-white bg-black px-4 py-3 text-[10px] text-white hover:bg-cyan-400 hover:border-cyan-400 hover:text-black transition-all"
-                >
-                  &gt; ADD TO SHOWCASE
-                </button>
               </div>
 
               {/* Showcase Items List */}
@@ -344,6 +332,7 @@ export function AssetForm() {
             </button>
             <button
               type="button"
+              onClick={() => (window.location.href = "/home")}
               className="border-4 border-white bg-black px-8 py-4 text-xs text-white hover:bg-red-500 hover:border-red-500 transition-all"
             >
               <X className="w-5 h-5" />

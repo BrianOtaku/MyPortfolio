@@ -42,7 +42,7 @@ export function UserMenu() {
           onClick={() =>
             !session ? (window.location.href = "/auth") : signOutUser()
           }
-          className="whitespace-nowrap sm:w-auto border-3 p-2 border-cyan-400 text-xs text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200"
+          className="bg-black whitespace-nowrap sm:w-auto border-3 p-2 border-cyan-400 text-xs text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200"
         >
           {!session ? "SIGN IN" : "SIGN OUT"}
         </button>
@@ -50,7 +50,7 @@ export function UserMenu() {
         {session?.user.role === "admin" && (
           <button
             onClick={() => (window.location.href = "/asset")}
-            className="whitespace-nowrap sm:w-auto border-3 p-2 border-cyan-400 text-xs text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200"
+            className="bg-black whitespace-nowrap sm:w-auto border-3 p-2 border-cyan-400 text-xs text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200"
           >
             UPLOAD ASSET
           </button>

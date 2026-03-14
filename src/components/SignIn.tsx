@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { signInUser } from "../lib/authApi";
-import { signIn } from "next-auth/react";
 
 export function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -142,38 +141,6 @@ export function SignIn() {
           )}
         </button>
       </form>
-
-      {/* Social Login */}
-      <div className="mt-8">
-        <div className="relative mb-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t-2 border-white/20"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <span className="bg-black px-4 text-[8px] text-white/40">
-              OR CONTINUE WITH
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <button
-            type="button"
-            onClick={() => signIn("github")}
-            className="border-4 border-white bg-black py-3 text-[10px] text-white hover:bg-white hover:text-black transition-all"
-          >
-            GITHUB
-          </button>
-
-          <button
-            type="button"
-            onClick={() => signIn("google")}
-            className="border-4 border-white bg-black py-3 text-[10px] text-white hover:bg-white hover:text-black transition-all"
-          >
-            GOOGLE
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
