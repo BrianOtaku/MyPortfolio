@@ -147,8 +147,10 @@ export function Projects() {
 
                 {/* Info */}
                 <div className="p-4 bg-black border-t-4 border-white">
-                  <h3 className="text-sm text-white mb-2">{project.title}</h3>
-                  <p className="text-[8px] text-white/60 leading-loose">
+                  <h3 className="text-sm text-white mb-2 line-clamp-1">
+                    {project.title}
+                  </h3>
+                  <p className="text-[8px] text-white/60 leading-loose line-clamp-1">
                     {project.description}
                   </p>
                 </div>

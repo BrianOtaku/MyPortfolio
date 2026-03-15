@@ -9,6 +9,8 @@ export interface IShowcase {
 export interface IAsset extends Document {
   title: string;
   description: string;
+  gitUrl: string;
+  itchUrl: string;
   fileUrl: string;
   publicId: string;
   showcase: IShowcase[];
@@ -22,6 +24,8 @@ const AssetSchema = new mongoose.Schema<IAsset>(
     title: { type: String, required: true },
     description: { type: String, required: true },
 
+    gitUrl: { type: String, required: true },
+    itchUrl: { type: String, required: true },
     fileUrl: { type: String, required: true },
     publicId: { type: String, required: true },
 

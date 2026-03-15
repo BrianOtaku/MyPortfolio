@@ -15,6 +15,8 @@ interface AssetForm {
   title: string;
   description: string;
   assetFile: File | null;
+  gitUrl: string;
+  itchUrl: string;
   showcase: Showcase[];
 }
 
@@ -22,11 +24,14 @@ export function AssetForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const assetFileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<AssetForm>({
     title: "",
     description: "",
     assetFile: null,
+    gitUrl: "",
+    itchUrl: "",
     showcase: [],
   });
 
@@ -116,8 +121,16 @@ export function AssetForm() {
         title: "",
         description: "",
         assetFile: null,
+        gitUrl: "",
+        itchUrl: "",
         showcase: [],
       });
+
+      // Clear file inputs
+      if (assetFileInputRef.current) assetFileInputRef.current.value = "";
+      if (fileInputRef.current) fileInputRef.current.value = "";
+
+      alert("Upload Successfully!");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -188,6 +201,38 @@ export function AssetForm() {
                 />
               </div>
 
+              {/* Github Url */}
+              <div>
+                <label className="block text-[10px] text-white mb-2">
+                  GITHUB URL:
+                </label>
+                <input
+                  type="url"
+                  name="gitUrl"
+                  value={formData.gitUrl}
+                  onChange={handleInputChange}
+                  placeholder="ENTER GITHUB URL"
+                  className="w-full bg-black border-4 border-white px-4 py-3 text-[10px] text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none transition-colors"
+                  required
+                />
+              </div>
+
+              {/* Itch Url */}
+              <div>
+                <label className="block text-[10px] text-white mb-2">
+                  ITCH URL:
+                </label>
+                <input
+                  type="url"
+                  name="itchUrl"
+                  value={formData.itchUrl}
+                  onChange={handleInputChange}
+                  placeholder="ENTER ITCH URL"
+                  className="w-full bg-black border-4 border-white px-4 py-3 text-[10px] text-white placeholder:text-white/30 focus:border-cyan-400 focus:outline-none transition-colors"
+                  required
+                />
+              </div>
+
               {/* Asset File */}
               <div>
                 <div className="block text-[10px] text-white mb-2">
@@ -197,6 +242,7 @@ export function AssetForm() {
                   <label className="cursor-pointer border-4 border-white px-4 py-3 text-white text-[10px] hover:border-cyan-400 hover:bg-cyan-400 hover:text-black">
                     &gt; SELECT ARCHIVE
                     <input
+                      ref={assetFileInputRef}
                       type="file"
                       className="hidden"
                       accept=".zip, .rar"
@@ -234,7 +280,7 @@ export function AssetForm() {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                   <label className="cursor-pointer border-4 border-white px-4 py-3 text-white text-[10px] hover:border-cyan-400 hover:bg-cyan-400 hover:text-black">
-                    &gt; SELECT ARCHIVE
+                    &gt; SELECT MEDIA
                     <input
                       ref={fileInputRef}
                       type="file"

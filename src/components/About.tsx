@@ -25,15 +25,25 @@ export function About() {
               <div className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-400"></div>
 
               <div className="space-y-6">
-                <div>
+                <div className="border-t-2 border-white/20 pt-6">
                   <div className="text-xs text-cyan-400 mb-4">
                     &gt; SYSTEM.INIT()
                   </div>
+
                   <p className="text-[10px] text-white/80 leading-loose">
-                    HELLO WORLD! I&apos;M A WEB DESIGNER, DEVELOPER, AND PIXEL
-                    ARTIST WITH A BACKGROUND IN INFORMATION TECHNOLOGY. I ENJOY
-                    CREATING CLEAN, MODERN INTERFACES, TURNING DESIGN IDEAS INTO
-                    RESPONSIVE WEBSITES, AND CREATING PIXEL GAME ASSETS.
+                    &gt; USER:{" "}
+                    <span className="text-white font-semibold">
+                      NGUYEN TAM BAO
+                    </span>{" "}
+                    <br />
+                    &gt; ROLE:{" "}
+                    <span className="text-cyan-300">
+                      WEB DESIGNER / DEVELOPER / PIXEL ARTIST
+                    </span>{" "}
+                    <br />
+                    &gt; BACKGROUND: INFORMATION TECHNOLOGY <br />
+                    &gt; STATUS: BUILDING CREATIVE WEB EXPERIENCES, 2D PIXEL
+                    GAME ASSETS...
                   </p>
                 </div>
 
@@ -41,11 +51,21 @@ export function About() {
                   <div className="text-xs text-cyan-400 mb-4">
                     &gt; MISSION.LOG()
                   </div>
+
                   <p className="text-[10px] text-white/80 leading-loose">
-                    I ENJOY CREATING CLEAN UI, EXPERIMENTING WITH GAME-STYLE
-                    INTERFACES, AND TURNING IDEAS INTO VISUAL WEB EXPERIENCES.
-                    PIXEL ART AND CREATIVE DESIGN ARE A BIG PART OF MY
-                    INSPIRATION.
+                    &gt; CREATE{" "}
+                    <span className="text-white">CLEAN AND MODERN UI</span>{" "}
+                    <br />
+                    &gt; TURN IDEAS INTO{" "}
+                    <span className="text-white">RESPONSIVE WEBSITES</span>{" "}
+                    <br />
+                    &gt; EXPERIMENT WITH{" "}
+                    <span className="text-cyan-300">
+                      GAME-STYLE INTERFACES
+                    </span>{" "}
+                    <br />
+                    &gt; DESIGN{" "}
+                    <span className="text-cyan-300">PIXEL GAME ASSETS</span>
                   </p>
                 </div>
 

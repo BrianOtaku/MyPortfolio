@@ -10,6 +10,8 @@ export async function POST(req: Request) {
   const asset = await Asset.create({
     title: body.title,
     description: body.description,
+    gitUrl: body.gitUrl,
+    itchUrl: body.itchUrl,
     fileUrl: body.fileUrl,
     publicId: body.publicId,
     showcase: body.showcase,

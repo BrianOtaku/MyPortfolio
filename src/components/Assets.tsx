@@ -13,6 +13,8 @@ interface Asset {
   _id: string;
   title: string;
   description: string;
+  gitUrl: string;
+  itchUrl: string;
   showcase: Showcase[];
 }
 
@@ -98,6 +100,7 @@ export function Assets() {
                             onClick={(e) => {
                               e.stopPropagation();
                             }}
+                            href={asset.itchUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="border-2 border-white p-3 bg-black hover:bg-white transition-colors group/btn"
@@ -105,9 +108,12 @@ export function Assets() {
                             <ExternalLink className="w-6 h-6 text-white group-hover/btn:text-black transition-colors" />
                           </a>
                           <a
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            href={asset.gitUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
                             className="border-2 border-white p-3 bg-black hover:bg-white transition-colors group/btn"
                           >
                             <Github className="w-6 h-6 text-white group-hover/btn:text-black transition-colors" />
@@ -122,11 +128,11 @@ export function Assets() {
 
                   {/* Info */}
                   <div className="p-4 bg-black border-t-4 border-white">
-                    <h3 className="text-sm text-white mb-2">{asset.title}</h3>
-                    <p className="text-[8px] text-white/60 leading-loose">
-                      {asset.description.length > 50
-                        ? asset.description.slice(0, 50) + "..."
-                        : asset.description}
+                    <h3 className="text-sm text-white mb-2 line-clamp-1">
+                      {asset.title}
+                    </h3>
+                    <p className="text-[8px] text-white/60 leading-loose line-clamp-1">
+                      {asset.description}
                     </p>
                   </div>
                 </div>

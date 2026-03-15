@@ -44,15 +44,16 @@ export default function Loading() {
       className={`flex items-center justify-center h-screen bg-black text-white`}
     >
       <div className="text-center">
-        <p className="mb-6 text-sm">LOADING... {progress}%</p>
+        <p className="mb-6 text-[10px] sm:text-sm tracking-widest">
+          LOADING... {progress}%
+        </p>
 
-        <div className="flex gap-1">
+        <div className="grid grid-cols-10 sm:grid-cols-20 gap-1 justify-center">
           {Array.from({ length: 20 }).map((_, i) => (
             <div
               key={i}
-              className={`w-4 h-4 border border-cyan-400 ${
-                i < progress / 5 ? "bg-cyan-400" : "bg-transparent"
-              }`}
+              className={`w-4 h-4 border border-cyan-400 transition-all duration-300
+        ${i < progress / 5 ? "bg-cyan-400 animate-pulse" : "bg-transparent"}`}
             />
           ))}
         </div>

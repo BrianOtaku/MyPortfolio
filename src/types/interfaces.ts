@@ -23,6 +23,8 @@ export interface Asset {
   title: string;
   description: string;
   fileUrl: string;
+  gitUrl: string;
+  itchUrl: string;
   publicId: string;
   showcase: Showcase[];
   downloads: number;

@@ -1,4 +1,5 @@
 import { Mail, Github, Facebook } from "lucide-react";
+import { FaItchIo } from "react-icons/fa";
 import { Footer } from "./Footer";
 
 export function Contact() {
@@ -78,6 +79,12 @@ export function Contact() {
                   icon: Facebook,
                   label: "Facebook",
                   url: "https://www.facebook.com/bao.nguyentam.585/",
+                  external: true,
+                },
+                {
+                  icon: FaItchIo,
+                  label: "ItchIo",
+                  url: "https://tam-bao-pixel-artist.itch.io/",
                   external: true,
                 },
                 {
