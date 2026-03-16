@@ -96,6 +96,8 @@ export function AssetForm() {
       const payload = {
         title: formData.title,
         description: formData.description,
+        gitUrl: formData.gitUrl,
+        itchUrl: formData.itchUrl,
         fileUrl: archiveUpload.secure_url,
         publicId: archiveUpload.public_id,
         showcase: showcaseUploads.map((u) => ({

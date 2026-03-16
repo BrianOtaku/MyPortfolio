@@ -53,10 +53,10 @@ export default function AssetModal({ asset, onClose }: Props) {
 
         {/* Asset Info */}
         <div className="border-b-4 border-cyan-400 p-6 bg-zinc-900">
-          <h2 className="text-xl md:text-2xl text-white mb-4">{asset.title}</h2>
-          <p className="text-[10px] text-white/60 leading-loose">
-            {asset.description}
-          </p>
+          <h2 className="text-sm text-cyan-400 mb-6">&gt; ASSET NAME</h2>
+          <h2 className="text-xl md:text-2xl text-white uppercase">
+            {asset.title}
+          </h2>
         </div>
 
         <div className="p-6">
@@ -95,6 +95,14 @@ export default function AssetModal({ asset, onClose }: Props) {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Asset Info */}
+        <div className="border-t-4 border-cyan-400 p-6 bg-zinc-900">
+          <h2 className="text-sm text-cyan-400 mb-6">&gt; DESCRIPTION</h2>
+          <p className="text-[10px] text-white leading-loose whitespace-pre-line">
+            {asset.description}
+          </p>
         </div>
 
         {/* Download Button */}

@@ -92,8 +92,11 @@ export function About() {
                 </div>
 
                 <div className="border-t-2 border-white/20 pt-6">
-                  <button className="w-full sm:w-auto border-4 border-cyan-400 bg-cyan-400 px-8 py-4 text-xs text-black hover:bg-black hover:text-cyan-400 transition-all duration-200">
-                    DOWNLOAD CV
+                  <button
+                    onClick={() => window.open("/pdf/Nguyen_Tam_Bao - CV.pdf")}
+                    className="w-full sm:w-auto border-4 border-cyan-400 bg-cyan-400 px-8 py-4 text-xs text-black hover:bg-black hover:text-cyan-400 transition-all duration-200"
+                  >
+                    VIEW CV
                   </button>
                 </div>
               </div>
